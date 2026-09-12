@@ -1,25 +1,33 @@
-# AI Game Course
+# De la Idea al Despliegue
 
-A comprehensive course on building games with artificial intelligence using Python and Pygame.
+A comprehensive course on **AI**, **Software Development**, and **CI/CD**, progressing from foundational concepts to production-ready deployments.
 
 ## Course Overview
 
-This course teaches game development fundamentals combined with AI concepts through hands-on projects. Students will build progressively complex games that leverage AI for intelligent game agents and NPCs.
+This course teaches software engineering fundamentals, artificial intelligence concepts, and modern DevOps practices through hands-on, progressively complex projects. Students will learn how to take an idea from concept to a deployed, monitored, production system.
+
+**What you'll learn:**
+- ✅ Python fundamentals & testing best practices
+- ✅ Algorithms and data structures
+- ✅ Machine Learning (supervised & unsupervised)
+- ✅ Deep Learning and neural networks
+- ✅ CI/CD pipelines and automation
+- ✅ Deployment strategies and monitoring
 
 ## Course Structure
 
 This course is organized into **8 progressive classes**, each building upon the previous one:
 
-| Class | Branch | Topic |
-|-------|--------|-------|
-| 1 | `class/1-foundations` | Pygame Fundamentals & Game Loop |
-| 2 | `class/2-movement` | Game Objects & Movement Systems |
-| 3 | `class/3-collision` | Collision Detection & Physics |
-| 4 | `class/4-pathfinding` | Pathfinding (A*, Dijkstra) |
-| 5 | `class/5-fsm` | Finite State Machines |
-| 6 | `class/6-behavior-trees` | Behavior Trees & Decision Making |
-| 7 | `class/7-neural-networks` | Intro to Neural Networks for Game AI |
-| 8 | `class/8-rl` | Reinforcement Learning Fundamentals |
+| Class | Branch | Topic | Focus |
+|-------|--------|-------|-------|
+| 1 | `class/1-foundations` | Python & Testing | Fundamentals |
+| 2 | `class/2-algorithms` | Algorithms & Data Structures | Fundamentals |
+| 3 | `class/3-ci-cd-basics` | Basic CI/CD Setup | CI/CD |
+| 4 | `class/4-ml-supervised` | Supervised Machine Learning | AI |
+| 5 | `class/5-ml-unsupervised` | Unsupervised Learning & Deep Learning | AI |
+| 6 | `class/6-advanced-ml` | Advanced AI Models | AI |
+| 7 | `class/7-deployment` | Containerization & Deployment | CI/CD |
+| 8 | `class/8-monitoring` | Monitoring & Production | CI/CD |
 
 ## Git Workflow
 
