@@ -29,6 +29,27 @@ This course is organized into **8 progressive classes**, each building upon the 
 | 7 | `class/7-deployment` | Containerization & Deployment | CI/CD |
 | 8 | `class/8-monitoring` | Monitoring & Production | CI/CD |
 
+## Learning Philosophy
+
+We follow a **Test-Driven Development (TDD)** approach:
+
+1. **Understand** - Read hand-written exercises and understand the concept
+2. **Test** - See the unit tests you need to pass
+3. **Code** - Write code to make tests pass
+4. **Compare** - Review reference implementations in multiple languages
+5. **Fork** - Create your own repository and modify the project
+
+This ensures deep learning through **hands-on, test-validated practice**.
+
+## Multi-Language Reference Code
+
+Each class includes reference implementations in:
+- 🐍 Python
+- 🟨 JavaScript/TypeScript
+- ☕ Java (selected classes)
+
+This helps you understand the same concept across different paradigms.
+
 ## Git Workflow
 
 We use **Git Flow** for managing this course:
@@ -37,9 +58,15 @@ We use **Git Flow** for managing this course:
 - `develop` - Integration branch for classes in progress
 - `class/N-*` - Individual class branches
 
-To access a specific class:
+To access a specific class and create your own fork:
 ```bash
+# Access class 1
+git clone https://github.com/rene-quesada/ai-game-course.git
+cd ai-game-course
 git checkout class/1-foundations
+
+# Create your own copy
+gh repo create my-ai-course --public --source=. --push
 ```
 
 ### Release Cycle
