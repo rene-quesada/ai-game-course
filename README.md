@@ -6,6 +6,38 @@ A comprehensive course on building games with artificial intelligence using Pyth
 
 This course teaches game development fundamentals combined with AI concepts through hands-on projects. Students will build progressively complex games that leverage AI for intelligent game agents and NPCs.
 
+## Course Structure
+
+This course is organized into **8 progressive classes**, each building upon the previous one:
+
+| Class | Branch | Topic |
+|-------|--------|-------|
+| 1 | `class/1-foundations` | Pygame Fundamentals & Game Loop |
+| 2 | `class/2-movement` | Game Objects & Movement Systems |
+| 3 | `class/3-collision` | Collision Detection & Physics |
+| 4 | `class/4-pathfinding` | Pathfinding (A*, Dijkstra) |
+| 5 | `class/5-fsm` | Finite State Machines |
+| 6 | `class/6-behavior-trees` | Behavior Trees & Decision Making |
+| 7 | `class/7-neural-networks` | Intro to Neural Networks for Game AI |
+| 8 | `class/8-rl` | Reinforcement Learning Fundamentals |
+
+## Git Workflow
+
+We use **Git Flow** for managing this course:
+
+- `main` - Stable releases with completed classes
+- `develop` - Integration branch for classes in progress
+- `class/N-*` - Individual class branches
+
+To access a specific class:
+```bash
+git checkout class/1-foundations
+```
+
+### Release Cycle
+
+Each completed class is merged into `develop`, and every milestone (e.g., after 2-3 classes) is released to `main` with a version tag (v1.0, v2.0, etc.).
+
 ## Prerequisites
 
 - Python 3.8+
