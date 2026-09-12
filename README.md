@@ -1,628 +1,254 @@
 # De la Idea al Despliegue con IA
 
-## Desarrollo de videojuegos con Python, Pygame, GitHub Copilot y CI/CD
+A hands-on course on **AI-assisted software development**, **Python/Pygame**, **testing**, and **CI/CD**. Students progressively build a videogame while learning how an idea becomes tested, integrated, packaged, versioned, released, and deployed software.
 
-Este repositorio contiene los materiales del curso **De la Idea al Despliegue con IA**, un curso práctico orientado al desarrollo moderno de software mediante **Python, Pygame, Git, GitHub, GitHub Copilot CLI y GitHub Actions**.
-
-A lo largo de ocho clases, los estudiantes desarrollarán progresivamente un videojuego utilizando inteligencia artificial generativa como asistente de programación, mientras aprenden prácticas fundamentales de ingeniería de software como:
-
-- Test-Driven Development (TDD).
-- Control de versiones con Git.
-- Desarrollo mediante branches.
-- Pruebas automatizadas.
-- Code coverage.
-- Linting y análisis estático.
-- Continuous Integration (CI).
-- Build automation.
-- Build artifacts.
-- Pull Requests y quality gates.
-- Continuous Delivery / Deployment (CD).
-- Releases.
-- Logging y observabilidad básica.
-
-El objetivo del curso **no es enseñar Machine Learning ni construir modelos de inteligencia artificial**.
-
-La inteligencia artificial se utiliza como una **herramienta de apoyo al proceso de desarrollo de software**, principalmente mediante **GitHub Copilot CLI**.
+> The course does **not** teach Machine Learning. AI is used as a software-engineering assistant, primarily through **GitHub Copilot CLI**.
 
 ---
 
-# 1. Filosofía del curso
+## Course Overview
 
-El curso sigue cuatro principios fundamentales.
+The course uses a single evolving Pygame project as the learning vehicle. Students work with requirements, tests, Git, GitHub Actions, build artifacts, releases, and deployment while using generative AI in a controlled and verifiable way.
 
-## 1.1 Aprender haciendo
-
-Cada concepto se introduce mediante cambios reales sobre un proyecto de software.
-
-Durante las ocho clases, el estudiante construirá progresivamente un videojuego funcional en Pygame.
-
-El proyecto evolucionará aproximadamente de esta forma:
+The core engineering loop is:
 
 ```text
-Idea
- ↓
 Requirement
- ↓
+    ↓
 Test
- ↓
-Código
- ↓
-Git
- ↓
+    ↓
+AI-assisted implementation
+    ↓
+Review
+    ↓
+Local verification
+    ↓
+Commit / Pull Request
+    ↓
 Continuous Integration
- ↓
-Build
- ↓
-Artifact
- ↓
-Deployment
- ↓
-Release
- ↓
-Monitoring
+    ↓
+Build Artifact
+    ↓
+Release / Deployment
 ```
+
+### What you'll learn
+
+- ✅ Python fundamentals through a Pygame project
+- ✅ Test-Driven Development (TDD) with `pytest`
+- ✅ Effective and responsible use of GitHub Copilot CLI
+- ✅ Git branches, commits, diffs, Pull Requests, and reviews
+- ✅ Continuous Integration with GitHub Actions
+- ✅ Code quality with Ruff, mypy, tests, and coverage
+- ✅ Build automation and downloadable artifacts
+- ✅ Packaging desktop builds
+- ✅ Browser deployment of a Pygame game with Pygbag
+- ✅ GitHub Pages deployment
+- ✅ Semantic Versioning, Git tags, and GitHub Releases
+- ✅ Basic logging and release observability
 
 ---
 
-## 1.2 Tests antes que implementación
+## Course Philosophy
 
-Siempre que sea posible se utilizará el ciclo:
+### 1. Learn by building
+
+Every concept is introduced through a real change to the game. The project becomes progressively more complete as the engineering process becomes progressively more automated.
+
+### 2. Tests before implementation
+
+Whenever practical, new behavior starts with a test:
 
 ```text
-RED
- ↓
-GREEN
- ↓
-REFACTOR
+RED → GREEN → REFACTOR
 ```
 
-Antes de implementar una nueva funcionalidad se define el comportamiento esperado mediante pruebas automatizadas.
-
-Ejemplo:
+Example:
 
 ```python
 def test_player_moves_right():
     assert move_player(100, 100, "RIGHT") == (105, 100)
 ```
 
-Inicialmente el test debe fallar.
+The test defines the expected behavior before the implementation is accepted.
+
+### 3. AI proposes; tests and engineers verify
+
+Copilot may help explain, plan, debug, refactor, document, or implement code, but generated code is **not considered correct until it has been reviewed and verified**.
+
+The recommended interaction model is:
 
 ```text
-FAILED
+Explain → Plan → Implement → Verify
 ```
 
-Después se utiliza Python y, cuando corresponda, GitHub Copilot para implementar la funcionalidad.
-
-Finalmente:
-
-```text
-PASSED
-```
-
----
-
-## 1.3 La IA propone, los tests verifican
-
-GitHub Copilot puede:
-
-- explicar código;
-- sugerir implementaciones;
-- analizar errores;
-- proponer tests;
-- ayudar a refactorizar;
-- explicar errores de CI;
-- generar documentación;
-- analizar cambios.
-
-Sin embargo:
-
-> El código generado por IA no se considera correcto hasta que haya sido revisado y verificado.
-
-El flujo recomendado durante el curso será:
-
-```text
-Requirement
-     ↓
-Test
-     ↓
-Prompt
-     ↓
-Copilot
-     ↓
-Review
-     ↓
-pytest
-     ↓
-CI
-```
-
----
-
-## 1.4 Explain → Plan → Implement → Verify
-
-Durante el curso se evitarán prompts genéricos como:
-
-```text
-Make me a game.
-```
-
-En su lugar se utilizará un proceso más estructurado.
-
-### Explain
+Example prompts:
 
 ```text
 Explain why this test is failing.
-Do not modify the code.
-```
-
-### Plan
-
-```text
-Inspect the current project.
-
-Propose the minimum changes necessary to implement this requirement.
-
-Identify which tests should be created or modified.
-
-Do not change any files yet.
-```
-
-### Implement
-
-```text
-Implement the approved plan.
-
-Do not change existing public interfaces.
-
-Make the minimum changes necessary.
-```
-
-### Verify
-
-```text
-Run the relevant tests.
-
-Review the changes and identify possible edge cases.
-```
-
----
-
-# 2. Tecnologías utilizadas
-
-El curso utiliza principalmente:
-
-| Tecnología | Propósito |
-|---|---|
-| Python | Lenguaje principal |
-| Pygame / pygame-ce | Desarrollo del videojuego |
-| pytest | Unit testing |
-| pytest-cov | Code coverage |
-| Ruff | Linting |
-| mypy | Type checking |
-| Git | Control de versiones |
-| GitHub | Repositorios y Pull Requests |
-| GitHub Copilot CLI | Desarrollo asistido por IA |
-| GitHub Actions | CI/CD |
-| GitHub Actions Artifacts | Build artifacts |
-| PyInstaller | Empaquetado desktop |
-| Pygbag | Build WebAssembly/browser |
-| GitHub Pages | Deployment web |
-| GitHub Releases | Distribución de versiones |
-
----
-
-# 3. Proyecto del curso
-
-Durante las ocho clases se desarrollará un videojuego 2D utilizando Pygame.
-
-El proyecto podrá tomar la forma de un juego estilo:
-
-- Space Defender.
-- Dungeon Escape.
-- Asteroids.
-- Top-down shooter.
-- Survival game.
-
-El juego exacto puede variar, pero deberá permitir incorporar progresivamente conceptos como:
-
-```text
-Player
-Enemies
-Movement
-Collision
-Score
-Lives
-Projectiles
-Power-ups
-Game states
-Levels
-Configuration
-Logging
-```
-
-La lógica del juego se mantendrá separada, en la medida de lo posible, del rendering de Pygame.
-
-Ejemplo:
-
-```text
-src/
-├── game/
-│   ├── player.py
-│   ├── enemy.py
-│   ├── collision.py
-│   ├── score.py
-│   └── rules.py
-│
-├── pygame_app/
-│   ├── renderer.py
-│   ├── input.py
-│   └── main.py
-│
-└── config.py
-```
-
-Esto permitirá probar la lógica del juego sin depender directamente de la interfaz gráfica.
-
----
-
-# 4. Organización del repositorio
-
-La rama `main` contiene:
-
-- este README;
-- información general del curso;
-- instrucciones;
-- estructura del proyecto;
-- materiales compartidos.
-
-Cada clase tendrá una rama específica.
-
-```text
-main
-│
-├── class-01
-├── class-02
-├── class-03
-├── class-04
-├── class-05
-├── class-06
-├── class-07
-└── class-08
-```
-
-Cada branch representa el punto de inicio correspondiente a una clase.
-
----
-
-# 5. Flujo de trabajo del estudiante
-
-Al inicio del curso cada estudiante creará su propio repositorio a partir del proyecto base.
-
-El flujo esperado será:
-
-```text
-Course Repository
-      ↓
-Create student repository
-      ↓
-Clone
-      ↓
-Checkout class branch
-      ↓
-Create working branch
-      ↓
-Develop
-      ↓
-Test
-      ↓
-Commit
-      ↓
-Push
-      ↓
-Pull Request
-      ↓
-CI
-```
-
-Ejemplo:
-
-```bash
-git clone <student-repository>
-cd de-la-idea-al-despliegue
-
-git checkout class-03
-
-git checkout -b feature/class-03
-```
-
----
-
-# 6. Flujo de desarrollo de cada clase
-
-Cada clase seguirá, cuando sea posible, la misma secuencia:
-
-```text
-1. Leer requirement
-
-2. Entender acceptance criteria
-
-3. Ejecutar los tests existentes
-
-4. Crear/modificar tests
-
-5. Obtener RED
-
-6. Consultar Copilot cuando sea necesario
-
-7. Revisar la propuesta
-
-8. Implementar
-
-9. Obtener GREEN
-
-10. Refactorizar
-
-11. Ejecutar lint/type checking
-
-12. Commit
-
-13. Push
-
-14. GitHub Actions
-
-15. Pipeline GREEN
-```
-
----
-
-# 7. Estructura de las clases
-
----
-
-# Class 1 — Idea → Test → Código
-
-## Objetivo
-
-Introducir:
-
-- conceptos básicos de IA generativa;
-- prompting;
-- Python;
-- Pygame;
-- testing;
-- Test-Driven Development.
-
-## Conceptos
-
-- ¿Qué es IA generativa?
-- Contexto.
-- Prompt.
-- Restricciones.
-- Hallucinations / respuestas incorrectas.
-- Verificación.
-- Python básico.
-- pytest.
-- TDD.
-
-## Ejercicio inicial
-
-Los estudiantes reciben un requisito sencillo:
-
-```text
-El jugador se mueve cinco píxeles hacia la derecha
-cuando se presiona RIGHT.
-```
-
-Antes de implementar:
-
-```python
-def test_move_right():
-    assert move_player(100, 100, "RIGHT") == (105, 100)
-```
-
-Después se implementa el código necesario para hacer pasar el test.
-
-## Primer uso de Copilot
-
-Ejemplo:
-
-```text
-Inspect the failing tests.
-
-Explain what functionality is missing.
-
 Do not modify any files.
 ```
 
-Posteriormente:
-
 ```text
-Implement the minimum functionality required
-to make the tests pass.
+Inspect the current project and propose the minimum changes needed
+for this requirement. Identify the tests that should exist first.
+Do not modify the code yet.
 ```
 
-## Proyecto
-
-Crear una ventana básica de Pygame con:
-
-- jugador;
-- movimiento;
-- límites de pantalla;
-- velocidad configurable.
-
-## Resultado
+```text
+Implement the approved plan without changing existing public interfaces.
+Make the minimum changes necessary.
+```
 
 ```text
-Idea
- ↓
+Run the relevant tests, review the diff, and identify possible edge cases.
+```
+
+### 4. Automation should grow with the project
+
+The pipeline begins with a single test job and evolves into a complete delivery workflow:
+
+```text
 Test
  ↓
-Code
+Lint + Type Check + Coverage
  ↓
-Working Pygame application
+Build
+ ↓
+Artifacts
+ ↓
+Quality Gates
+ ↓
+Deployment
+ ↓
+Versioned Release
 ```
 
 ---
 
-# Class 2 — Git + Features + Debugging
+## Course Structure
 
-## Objetivo
+The course is organized into **8 progressive classes**.
 
-Introducir desarrollo incremental y control de versiones.
+| Class | Branch | Topic | Main Outcome |
+|---|---|---|---|
+| 1 | `class/1-foundations` | Idea → Test → Code | First Pygame game, pytest, TDD, Copilot basics |
+| 2 | `class/2-git-features` | Git, Features & Debugging | Incremental development with branches and AI-assisted debugging |
+| 3 | `class/3-ci-cd-basics` | Continuous Integration | GitHub Actions, Ruff, mypy, pytest, coverage |
+| 4 | `class/4-architecture-testing` | Architecture & Testability | Modular Pygame code and stronger automated tests |
+| 5 | `class/5-build-artifacts` | Build & Artifacts | Desktop/web builds, coverage reports, downloadable artifacts |
+| 6 | `class/6-quality-gates` | Pull Requests & Quality Gates | PR workflow, required checks, review, individualized feature |
+| 7 | `class/7-deployment` | Deployment | Browser build with Pygbag and deployment to GitHub Pages |
+| 8 | `class/8-release` | Continuous Delivery & Releases | Version tags, GitHub Releases, automated deployment, logging |
 
-## Conceptos
+---
 
-- Git.
-- Repository.
-- Commit.
-- Branch.
-- Diff.
-- Merge.
-- Debugging.
-- Edge cases.
+# Class Details
 
-## Features
+## Class 1 — Idea → Test → Code
 
-Agregar progresivamente:
+### Goals
 
-- enemigos;
-- colisiones;
-- score;
-- vidas;
-- restart.
+- Introduce generative AI at a basic level.
+- Understand that AI output is probabilistic and must be verified.
+- Introduce Python and Pygame through a minimal game.
+- Introduce `pytest` and the RED → GREEN → REFACTOR cycle.
+- Use GitHub Copilot CLI for explanation and minimal implementation.
 
-Cada feature deberá tener tests asociados.
+### Pen-and-paper exercise
 
-## Copilot
-
-Copilot se utiliza principalmente para:
-
-### Explicar
+Students receive a simple requirement such as:
 
 ```text
-Explain this function.
+The player is at (100, 100).
+When RIGHT is pressed, the player moves 5 pixels to the right.
+The player cannot leave the screen.
 ```
 
-### Debugging
+They first discuss what information an AI assistant would need in order to produce a correct implementation. The exercise introduces **context, constraints, acceptance criteria, and verification** before using Copilot.
+
+### Practical project
+
+Create a minimal Pygame application with:
+
+- a player;
+- movement;
+- configurable speed;
+- screen boundaries;
+- unit tests for game logic.
+
+---
+
+## Class 2 — Git, Features & Debugging
+
+### Goals
+
+- Introduce Git as part of the development workflow.
+- Work with commits, branches, diffs, and history.
+- Add game features incrementally.
+- Use Copilot primarily for explanation, planning, and debugging.
+
+### Example features
+
+- enemies;
+- collisions;
+- score;
+- lives;
+- restart behavior.
+
+Every feature should include or update automated tests.
+
+Example debugging prompt:
 
 ```text
 This test is failing.
-
 Analyze the failure and provide three possible causes.
-
-Do not change the source code.
+Do not modify the source code.
 ```
-
-### Planning
-
-```text
-Propose a minimal implementation plan for collision detection.
-
-Identify the tests that should exist before implementing it.
-```
-
-## Resultado
-
-Videojuego con varias funcionalidades y desarrollo mediante Git.
 
 ---
 
-# Class 3 — Continuous Integration
+## Class 3 — Continuous Integration
 
-## Objetivo
+### Goals
 
-Automatizar la validación del proyecto.
+Introduce GitHub Actions and move verification from a developer's machine to an automated pipeline.
 
-## Introducción a GitHub Actions
-
-Primer pipeline:
+Initial pipeline:
 
 ```text
-Push
- ↓
-GitHub Actions
- ↓
+Push / Pull Request
+        ↓
 Install dependencies
- ↓
+        ↓
 pytest
 ```
 
-Después se amplía:
+Expanded pipeline:
 
 ```text
 Push / Pull Request
         │
-        ├── Install
-        │
         ├── Ruff
-        │
         ├── mypy
-        │
         ├── pytest
-        │
         └── coverage
 ```
 
-## Ejercicio principal
-
-Introducir intencionalmente un defecto.
-
-```text
-Local change
- ↓
-Commit
- ↓
-Push
- ↓
-CI FAILS
-```
-
-Después utilizar Copilot para investigar el error.
-
-```text
-Inspect the CI failure.
-
-Explain the root cause.
-
-Do not make any modifications.
-```
-
-Finalmente:
-
-```text
-Fix
- ↓
-Push
- ↓
-CI GREEN
-```
-
-## Resultado
-
-El repositorio ya tiene un sistema básico de **Continuous Integration**.
+Students intentionally introduce a defect, push it, inspect a failing CI run, diagnose the problem with Copilot, correct it, and return the pipeline to green.
 
 ---
 
-# Class 4 — Arquitectura y Testing del juego
+## Class 4 — Architecture & Testability
 
-## Objetivo
+### Goals
 
-Evolucionar de un script Pygame a una aplicación organizada.
+Evolve the project from a simple Pygame script into a maintainable application.
 
-## Conceptos
-
-- separación de responsabilidades;
-- módulos;
-- funciones puras;
-- dependency separation;
-- testability;
-- refactoring.
-
-## Arquitectura aproximada
+Target structure:
 
 ```text
 Game
-│
 ├── Player
 ├── Enemy
 ├── Projectile
@@ -632,214 +258,114 @@ Game
 └── Configuration
 ```
 
-Se buscará separar:
+The key design principle is to separate as much **game logic** as possible from **Pygame rendering and input handling**, allowing the important rules to be tested without launching the graphical interface.
 
-```text
-Game Logic
-```
-
-de:
-
-```text
-Rendering
-```
-
-## Proyecto
-
-Agregar:
+Possible additions:
 
 - projectiles;
-- múltiples enemigos;
-- score;
+- multiple enemies;
 - game over;
-- restart;
-- dificultad progresiva.
-
-## Resultado
-
-Juego modular con una arquitectura que pueda ser probada y mantenida.
+- progressive difficulty;
+- game states.
 
 ---
 
-# Class 5 — Build & Artifacts
+## Class 5 — Build & Artifacts
 
-## Objetivo
+### Goals
 
-Introducir el concepto de **build artifact**.
+Introduce the idea that a CI pipeline should be able not only to verify the software, but also to **produce reusable outputs**.
 
-Hasta esta clase el pipeline valida el código.
-
-Ahora comenzará a **producir un resultado reutilizable**.
-
-## Concepto
-
-Un artifact es una salida producida automáticamente por el pipeline.
-
-Ejemplos:
+Pipeline progression:
 
 ```text
-Source Code
-    ↓
-Pipeline
-    ↓
+Lint
+ ↓
+Type Check
+ ↓
+Unit Tests
+ ↓
+Coverage
+ ↓
+Build
+ ↓
 Artifact
 ```
 
-Artifacts del curso:
+Example artifacts:
 
 ```text
 coverage-report.zip
-
-game-build.zip
-
 test-results.xml
-
-dist/
+game-build.zip
+web-build.zip
 ```
 
-## Pipeline
+Students use GitHub Actions artifacts so build outputs can be downloaded from a workflow execution.
+
+### Desktop packaging
+
+PyInstaller can be introduced to produce a distributable desktop build:
 
 ```text
-Lint
- ↓
-Type Check
- ↓
-Unit Tests
- ↓
-Coverage
- ↓
-Build
- ↓
-Artifact
-```
-
-## GitHub Actions Artifacts
-
-El pipeline deberá almacenar automáticamente resultados como:
-
-```text
-game-build
-coverage-report
-test-results
-```
-
-Estos artifacts deberán poder descargarse desde la ejecución del workflow.
-
-## Build desktop
-
-Se puede introducir PyInstaller para producir una versión ejecutable.
-
-Ejemplo conceptual:
-
-```text
-Python/Pygame
+Python / Pygame
       ↓
 PyInstaller
       ↓
-dist/game
+dist/
       ↓
 ZIP
       ↓
-GitHub Artifact
+GitHub Actions Artifact
 ```
 
-## Versionado
+### Web build preparation
 
-Introducción sencilla a:
-
-```text
-0.1.0
-0.2.0
-0.3.0
-```
-
-y conceptos básicos de Semantic Versioning.
-
-## Resultado
-
-El pipeline deja de limitarse a verificar software.
-
-Ahora:
-
-> **CI también produce software distribuible.**
+Pygbag is introduced as the mechanism that will later allow the Pygame game to run in a browser.
 
 ---
 
-# Class 6 — Pull Requests & Quality Gates
+## Class 6 — Pull Requests & Quality Gates
 
-## Objetivo
+### Goals
 
-Introducir un flujo de desarrollo similar al utilizado en equipos profesionales.
-
-El flujo cambia de:
+Move from direct development to a workflow closer to a professional team:
 
 ```text
-Developer
- ↓
-main
-```
-
-a:
-
-```text
-Developer
- ↓
 Feature Branch
- ↓
+      ↓
 Pull Request
- ↓
+      ↓
 CI
- ↓
+      ↓
 Review
- ↓
+      ↓
 Merge
 ```
 
-## Quality Gates
+A Pull Request should not be considered ready while required checks fail.
 
-Un Pull Request no deberá integrarse si falla:
+Suggested quality gates:
 
-```text
-Lint
-Type Check
-Unit Tests
-Coverage
-Build
-```
+- Ruff passes;
+- mypy passes;
+- unit tests pass;
+- coverage threshold is met;
+- build succeeds.
 
-## Copilot como reviewer
+### Individual feature
 
-Ejemplo:
-
-```text
-Review the current diff.
-
-Look specifically for:
-
-- bugs;
-- missing tests;
-- duplicated logic;
-- unnecessary complexity;
-- possible edge cases.
-
-Do not modify the code.
-```
-
-## Feature individual
-
-Cada estudiante implementará una funcionalidad distinta.
-
-Ejemplos:
+Each student implements a different game feature, for example:
 
 - shield;
 - boss;
 - double shot;
-- health;
+- health system;
 - power-up;
-- new enemy;
+- new enemy behavior;
 - progressive difficulty.
 
-Cada feature deberá incluir:
+The feature should include:
 
 ```text
 Requirement
@@ -847,26 +373,20 @@ Acceptance Criteria
 Tests
 Implementation
 Pull Request
-CI
+CI Evidence
 ```
 
-## Resultado
-
-El estudiante completa una modificación utilizando un flujo completo basado en Pull Requests.
+Copilot can be used as a code-review assistant, but the student remains responsible for accepting or rejecting its recommendations.
 
 ---
 
-# Class 7 — Deployment
+## Class 7 — Deployment
 
-## Objetivo
+### Goals
 
-Convertir el juego Pygame en una aplicación accesible mediante una URL.
+Take a tested artifact and deploy it to an environment that can be used by another person.
 
-## Pygame en navegador
-
-El proyecto utilizará **Pygbag** para generar una versión WebAssembly compatible con navegador.
-
-Flujo:
+For this course, the Pygame game is packaged for the browser using **Pygbag** and deployed through **GitHub Pages**.
 
 ```text
 Python + Pygame
@@ -880,82 +400,34 @@ GitHub Actions
 GitHub Pages
 ```
 
-## Primer deployment
+The first deployment can be manually initiated using `workflow_dispatch` so students can clearly distinguish **build** from **deployment**.
 
-Inicialmente el deployment podrá ejecutarse manualmente.
-
-```text
-workflow_dispatch
-       ↓
-Build
-       ↓
-Web Artifact
-       ↓
-Deploy
-       ↓
-GitHub Pages
-```
-
-Ejemplo conceptual de resultado:
+Conceptually:
 
 ```text
-https://<username>.github.io/<repository>/
+Continuous Integration → Is the change valid?
+Build                  → What can we distribute?
+Deployment             → Can users run this version?
 ```
-
-## Objetivo pedagógico
-
-Distinguir:
-
-### Continuous Integration
-
-```text
-¿El cambio funciona?
-```
-
-de:
-
-### Deployment
-
-```text
-¿Podemos ejecutar esa versión en un ambiente real?
-```
-
-## Environment
-
-Se introduce el concepto:
-
-```text
-Development
- ↓
-Staging
- ↓
-Production
-```
-
-Para efectos del curso, GitHub Pages puede funcionar como ambiente desplegado.
-
-## Resultado
-
-Cada estudiante tendrá una versión del juego que puede ejecutarse desde un navegador.
 
 ---
 
-# Class 8 — Continuous Delivery
+## Class 8 — Continuous Delivery, Versioning & Release
 
-## Objetivo
+### Goals
 
-Automatizar el proceso completo desde código hasta release.
+Automate the complete journey from a validated change to a versioned release.
 
-Pipeline final:
+Final pipeline:
 
 ```text
 Pull Request
      ↓
-Lint
+Ruff
      ↓
-Type Check
+mypy
      ↓
-Unit Tests
+pytest
      ↓
 Coverage
      ↓
@@ -967,154 +439,187 @@ Artifacts
      ↓
 Merge
      ↓
-Deploy
-     ↓
-Release
-```
-
-## Tags
-
-Se introduce versionado mediante tags.
-
-Ejemplo:
-
-```bash
-git tag v1.0.0
-git push origin v1.0.0
-```
-
-El tag puede iniciar:
-
-```text
-Tag v1.0.0
-     ↓
-GitHub Actions
-     ↓
-Tests
-     ↓
-Build
-     ↓
-Artifacts
+Version Tag
      ↓
 GitHub Release
      ↓
 Production Deployment
 ```
 
-## GitHub Release
+Students also add basic runtime logging and release metadata so a running build can identify its version and report meaningful errors.
 
-La versión final podrá incluir:
+---
+
+## Repository and Branch Strategy
+
+### Instructor repository
+
+`main` is the course home. It contains the general README, common project structure, shared instructions, and stable course-level material.
+
+Each `class/*` branch contains the canonical material or reference state for that class:
 
 ```text
-game-windows.zip
-game-web.zip
-coverage-report
-release-notes.md
+main
+│
+├── class/1-foundations
+├── class/2-git-features
+├── class/3-ci-cd-basics
+├── class/4-architecture-testing
+├── class/5-build-artifacts
+├── class/6-quality-gates
+├── class/7-deployment
+└── class/8-release
 ```
 
-## Continuous Delivery
+The class branches are intended primarily as **course checkpoints/reference states**, not as a substitute for the student's own development history.
 
-El objetivo final será comprender:
+### Student repository
+
+For a course that relies on multiple progressive branches, the recommended approach is to **fork the instructor repository** or clone it and push it to a new student-owned repository. This preserves the branch history needed for the class checkpoints.
+
+A GitHub template repository may also be used for a clean starting repository, but when all template branches are copied GitHub creates those branches with unrelated histories. For this reason, a fork or normal clone is simpler when branch-to-branch history matters.
+
+Example:
+
+```bash
+git clone <student-repository-url>
+cd de-la-idea-al-despliegue
+
+git branch -a
+git checkout class/1-foundations
+```
+
+Students should create their own working branch for exercises and features rather than making all changes directly on the instructor class branch.
+
+Example:
+
+```bash
+git checkout -b feature/player-movement
+```
+
+---
+
+## Versioning Strategy
+
+The project uses **Semantic Versioning (SemVer)**:
 
 ```text
-Code
- ↓
-Commit
- ↓
-CI
- ↓
+MAJOR.MINOR.PATCH
+```
+
+Example:
+
+```text
+v1.2.3
+```
+
+### Version meaning
+
+- **MAJOR** — incompatible or intentionally breaking changes.
+- **MINOR** — new backward-compatible functionality.
+- **PATCH** — backward-compatible fixes.
+
+During the course, versions before the final release remain in the `0.x` development series.
+
+Suggested educational milestones:
+
+| Milestone | Suggested Version |
+|---|---|
+| Class 1 complete | `v0.1.0` |
+| Class 2 complete | `v0.2.0` |
+| Class 3 complete | `v0.3.0` |
+| Class 4 complete | `v0.4.0` |
+| Class 5 artifacts complete | `v0.5.0` |
+| Class 6 quality gates complete | `v0.6.0` |
+| Class 7 deployed | `v0.7.0` |
+| Class 8 final release | `v1.0.0` |
+
+A defect fixed without adding a feature increments the patch number:
+
+```text
+v0.5.0 → v0.5.1
+```
+
+A new backward-compatible feature after the final release increments the minor number:
+
+```text
+v1.0.0 → v1.1.0
+```
+
+A breaking change after the final release increments the major number:
+
+```text
+v1.4.2 → v2.0.0
+```
+
+### Git tags
+
+Example:
+
+```bash
+git tag -a v0.5.0 -m "Class 5: Build artifacts"
+git push origin v0.5.0
+```
+
+By Class 8, a version tag such as `v1.0.0` should be able to trigger the release workflow:
+
+```text
+Tag v1.0.0
+     ↓
+Validate
+     ↓
 Build
- ↓
-Artifact
- ↓
-Release
- ↓
-Deployment
+     ↓
+Publish Artifacts
+     ↓
+Create GitHub Release
+     ↓
+Deploy Web Build
 ```
+
+A `CHANGELOG.md` is recommended so students can connect source-code changes to released versions.
 
 ---
 
-# 8. Pipeline final del curso
+## Project Structure
 
-Al terminar la Clase 8 el proyecto deberá implementar aproximadamente:
+A possible project structure is:
 
 ```text
-                    Developer
-                        │
-                        ▼
-                  Feature Branch
-                        │
-                        ▼
-                   Pull Request
-                        │
-            ┌───────────┴────────────┐
-            │                        │
-            ▼                        ▼
-           Ruff                     mypy
-            │                        │
-            └───────────┬────────────┘
-                        ▼
-                     pytest
-                        │
-                        ▼
-                    Coverage
-                        │
-                        ▼
-                      Build
-                        │
-               ┌────────┴────────┐
-               ▼                 ▼
-          Desktop Build      Web Build
-               │                 │
-               └────────┬────────┘
-                        ▼
-                    Artifacts
-                        │
-                        ▼
-                      Merge
-                        │
-                        ▼
-                     Release
-                        │
-                        ▼
-                     Deploy
-                        │
-                        ▼
-                  GitHub Pages
+.
+├── src/
+│   ├── game/
+│   │   ├── player.py
+│   │   ├── enemy.py
+│   │   ├── collision.py
+│   │   ├── score.py
+│   │   └── rules.py
+│   ├── pygame_app/
+│   │   ├── renderer.py
+│   │   ├── input.py
+│   │   └── main.py
+│   └── config.py
+├── tests/
+├── assets/
+├── docs/
+│   └── ai-log.md
+├── .github/
+│   └── workflows/
+├── requirements.txt
+└── README.md
 ```
 
 ---
 
-# 9. Entregables por clase
+## AI Development Log
 
-Cada clase podrá producir algunos o todos los siguientes elementos:
-
-- Código fuente.
-- Unit tests.
-- Git commits.
-- Prompt log.
-- README actualizado.
-- GitHub Actions workflow.
-- Coverage report.
-- Build artifact.
-- Pull Request.
-- Release.
-- Deployment.
-
----
-
-# 10. AI Development Log
-
-Cada estudiante mantendrá:
+Students should maintain a lightweight record of meaningful AI-assisted development decisions in:
 
 ```text
-docs/
-└── ai-log.md
+docs/ai-log.md
 ```
 
-El documento registrará los usos más relevantes de IA.
-
-Formato sugerido:
+Suggested format:
 
 ```markdown
 ## Prompt
@@ -1124,12 +629,11 @@ Do not modify the code.
 
 ## Result
 
-Copilot identified that collision detection was using
-the previous player coordinates.
+Copilot identified that collision detection was using stale coordinates.
 
 ## Decision
 
-Accepted the explanation but implemented the correction manually.
+The explanation was accepted, but the correction was implemented manually.
 
 ## Verification
 
@@ -1138,77 +642,250 @@ pytest tests/test_collision.py
 5 passed.
 ```
 
-El propósito no es registrar cada interacción con la IA, sino aquellas que hayan tenido impacto en el desarrollo.
+The goal is not to record every AI interaction, but to capture important examples of **generation, debugging, review, acceptance, rejection, and verification**.
 
 ---
 
-# 11. Evaluación
+## Prerequisites
 
-El funcionamiento del programa no será el único criterio de evaluación.
+Recommended:
 
-| Área | Peso sugerido |
-|---|---:|
-| Funcionalidad | 20% |
-| Testing y TDD | 20% |
-| CI/CD | 20% |
-| Uso razonado de IA | 15% |
-| Calidad del código | 10% |
-| Feature individual | 10% |
-| Documentación | 5% |
+- Python 3.11+
+- Basic programming concepts
+- Basic terminal/command-line use
+- Git installed
+- GitHub account
+- GitHub Copilot access for Copilot CLI exercises
 
-Los tests pasando son una condición necesaria, pero no demuestran por sí solos comprensión.
+Students do **not** need prior experience with CI/CD or Pygame.
 
 ---
 
-# 12. Métricas del proceso
+## Getting Started
 
-Durante el curso pueden recopilarse métricas como:
+### 1. Clone the repository
+
+```bash
+git clone <repository-url>
+cd de-la-idea-al-despliegue
+```
+
+### 2. Create a virtual environment
+
+```bash
+python -m venv .venv
+```
+
+Linux/macOS:
+
+```bash
+source .venv/bin/activate
+```
+
+Windows PowerShell:
+
+```powershell
+.venv\Scripts\Activate.ps1
+```
+
+### 3. Install dependencies
+
+```bash
+python -m pip install --upgrade pip
+pip install -r requirements.txt
+```
+
+### 4. Run tests
+
+```bash
+pytest
+```
+
+### 5. Run coverage
+
+```bash
+pytest --cov=src --cov-report=term-missing
+```
+
+### 6. Run linting
+
+```bash
+ruff check .
+```
+
+### 7. Run type checking
+
+```bash
+mypy src
+```
+
+### 8. Run the game
+
+```bash
+python -m src.pygame_app.main
+```
+
+> The exact command may evolve as the project architecture changes across class branches.
+
+---
+
+## GitHub Copilot CLI
+
+Copilot CLI is used as an AI-assisted engineering tool during the course.
+
+Typical commands include:
+
+```bash
+copilot
+```
+
+and repository-specific initialization:
+
+```bash
+copilot init
+```
+
+Students are expected to review all proposed changes and verify them with tests and CI before accepting them.
+
+---
+
+## CI/CD Pipeline
+
+The GitHub Actions pipeline evolves throughout the course.
+
+### Early course
+
+```text
+pytest
+```
+
+### Middle of course
+
+```text
+Ruff
+ ↓
+mypy
+ ↓
+pytest
+ ↓
+coverage
+ ↓
+build
+ ↓
+artifacts
+```
+
+### Final course pipeline
+
+```text
+Pull Request
+     ↓
+Quality Gates
+     ↓
+Build
+     ↓
+Artifacts
+     ↓
+Version Tag
+     ↓
+GitHub Release
+     ↓
+GitHub Pages Deployment
+```
+
+See `.github/workflows/` for the workflows implemented in each class branch.
+
+---
+
+## Deployment Target
+
+The recommended deployment path for this course is:
+
+```text
+Pygame
+  ↓
+Pygbag
+  ↓
+WebAssembly-compatible browser build
+  ↓
+GitHub Actions artifact
+  ↓
+GitHub Pages
+```
+
+This allows the final project to be shared through a URL without requiring the evaluator or another student to install Python locally.
+
+Desktop builds may also be published as downloadable GitHub Release assets.
+
+---
+
+## Evaluation Evidence
+
+A student's final repository can provide evidence from multiple dimensions instead of relying only on whether the game runs:
+
+- functionality;
+- automated tests;
+- test coverage;
+- commits and development history;
+- Pull Requests;
+- CI results;
+- build artifacts;
+- version tags;
+- releases;
+- deployed game;
+- AI development log;
+- documentation.
+
+Useful process metrics may include:
 
 ```text
 Test Pass Rate
-
 Code Coverage
-
 Pipeline Success Rate
-
 CI Failures
-
 Time to Green
-
-Number of Commits
-
-Pull Request Success
-
 Build Success Rate
-
 Deployment Success Rate
-```
-
-Para estudiar el uso de IA también se pueden considerar:
-
-```text
-AI prompts used
-
-Debugging prompts
-
-Code-generation prompts
-
-Suggested changes accepted
-
-Suggested changes rejected
-
-AI-generated defects detected
-
-AI-assisted defect corrections
+Number of Commits
+Pull Request Results
+AI-assisted debugging interactions
+AI suggestions accepted/rejected
 ```
 
 ---
 
-# 13. Resultado final esperado
+## References and Technical Documentation
 
-Al terminar el curso el estudiante habrá desarrollado un videojuego funcional utilizando Python y Pygame y habrá construido alrededor de él un proceso moderno de ingeniería de software.
+### AI-assisted programming education
 
-El estudiante habrá experimentado el flujo completo:
+- Groothuijsen, S., van den Beemt, A. A. J., Remmers, J. J. C., & van Meeuwen, L. W. (2024). *AI chatbots in programming education: Students' use in a scientific computing course and consequences for learning*. Computers and Education: Artificial Intelligence, 7, 100290. https://doi.org/10.1016/j.caeai.2024.100290
+- Sun, D., Boudouaia, A., Zhu, C., & Li, Y. (2024). *Would ChatGPT-facilitated programming mode impact college students' programming behaviors, performances, and perceptions? An empirical study*. International Journal of Educational Technology in Higher Education, 21, 14. https://doi.org/10.1186/s41239-024-00446-5
+
+### Testing and CI/CD education
+
+- Bowyer, J., & Hughes, J. (2006). *Assessing undergraduate experience of continuous integration and test-driven development*. Proceedings of the 28th International Conference on Software Engineering, 691–694. https://doi.org/10.1145/1134285.1134393
+- Cadavid, H. F. (2018). *Continuous delivery pipelines for teaching agile and developing software engineering skills*. International Journal of Modern Education and Computer Science, 10(5), 17–26. https://doi.org/10.5815/ijmecs.2018.05.03
+- Janzen, D. S., & Saiedian, H. (2006). *On the influence of test-driven development on software design*. Proceedings of the 19th Conference on Software Engineering Education and Training, 141–148. https://doi.org/10.1109/CSEET.2006.25
+
+### Official documentation
+
+- GitHub Copilot CLI: https://docs.github.com/en/copilot/reference/copilot-cli-reference
+- GitHub Actions: https://docs.github.com/en/actions
+- GitHub Pages custom workflows: https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages
+- Pygbag: https://pygame-web.github.io/wiki/pygbag/
+- Semantic Versioning: https://semver.org/
+
+---
+
+## License
+
+MIT License — see `LICENSE` for details.
+
+---
+
+## Final Goal
+
+The goal is not only to create a videogame. The goal is to understand and practice the complete software-delivery lifecycle:
 
 ```text
 IDEA
@@ -1223,62 +900,17 @@ CODE
  ↓
 GIT
  ↓
-PULL REQUEST
- ↓
 CONTINUOUS INTEGRATION
  ↓
 BUILD
  ↓
 ARTIFACT
  ↓
+VERSION
+ ↓
 RELEASE
  ↓
 DEPLOYMENT
-```
-
-El objetivo final no es únicamente:
-
-> "Crear un videojuego".
-
-El objetivo es comprender:
-
-> **cómo una idea se convierte de forma controlada, verificable y automatizada en software que puede ser entregado a un usuario.**
-
----
-
-# 14. Resumen de las ocho clases
-
-| Clase | Tema | Resultado principal |
-|---|---|---|
-| 1 | Idea → Test → Código | Primer juego + TDD + Copilot |
-| 2 | Git + Features | Juego incremental |
-| 3 | Continuous Integration | Pipeline automático |
-| 4 | Arquitectura + Testing | Juego modular |
-| 5 | Build + Artifacts | Software empaquetado |
-| 6 | Pull Requests + Quality Gates | Flujo profesional |
-| 7 | Deployment | Juego disponible en navegador |
-| 8 | Continuous Delivery + Release | Pipeline completo |
-
----
-
-# De la Idea al Despliegue
-
-```text
-Think
- ↓
-Test
- ↓
-Code
- ↓
-Verify
- ↓
-Integrate
- ↓
-Build
- ↓
-Deliver
- ↓
-Observe
 ```
 
 **Build software. Test everything. Automate the process. Use AI responsibly.**

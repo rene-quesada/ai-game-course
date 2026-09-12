@@ -1,6 +1,18 @@
-pygame==2.5.2
-pytest==7.4.3
-pytest-cov==4.1.0
-flake8==6.1.0
-black==23.12.0
-numpy==1.24.3
+# De la Idea al Despliegue con IA
+# Dependency versions reviewed: 2026-09-12
+# Recommended Python: 3.11+
+
+# Runtime
+pygame==2.6.1
+
+# Testing and coverage
+pytest==9.1.1
+pytest-cov==7.1.0
+
+# Code quality
+ruff==0.16.7
+mypy==2.3.1
+
+# Build and packaging
+pyinstaller==6.22.2
+pygbag==0.9.3
